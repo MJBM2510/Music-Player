@@ -3,6 +3,7 @@
 
 class Song{
     friend class SongRepository;
+    friend class PlayQueue;
     private:
         std::string name, artist;
         unsigned int year;
