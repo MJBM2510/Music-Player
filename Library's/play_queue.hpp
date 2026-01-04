@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "Song.hpp"
+#include "song.hpp"
 
   
 
@@ -41,10 +41,6 @@ public:
         nextSong = queue.front();
         return true;
     }
-
-    //bool isEmpty() const {
-     //   return queue.empty();
-   // }
 
     
     int size() const {
