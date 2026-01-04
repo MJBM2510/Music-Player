@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "Song.hpp"
+#include "song.hpp"
 
   
 
@@ -27,10 +27,10 @@ public:
     void dequeue(Song& nextSong) {
         if (queue.empty()) {
             std::cout << "Warning: There is no song in the play list!\n";
+            return;
         }
         nextSong = std::move(queue.front());
         queue.erase(queue.begin());
-        return;
     }
 
 
@@ -41,10 +41,6 @@ public:
         nextSong = queue.front();
         return true;
     }
-
-    //bool isEmpty() const {
-     //   return queue.empty();
-   // }
 
     
     int size() const {
@@ -82,6 +78,7 @@ public:
                 std::cout << "   • " << s.name << " - " << s.artist
                           << " (ID: " << s.id << ")\n";
                 found = true;
+                break;
             }
         }
 
