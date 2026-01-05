@@ -59,6 +59,21 @@ class SongRepository{
             std::cout<<"No song/artist fine with similar keyword: "<<keyword<<std::endl;
         }
 
+        void showPlaylist(){
+            if(head == nullptr){
+                std::cout<<"playlist is empty\n";
+                return;
+            }
+
+            for(const Song* current = head; current != nullptr; current = current->nextSong){
+                std::cout<<"name:\t"<<current->name
+                    <<"\nartist:\t"<<current->artist
+                    <<"\nyear:\t"<<current->year
+                    <<"\nduration:\t"<<current->duration
+                    <<"\nid:\t"<<current->id<<"\n\n";
+            }
+        }
+
         ~SongRepository() {
             while (head) {
                 Song* temp = head;
