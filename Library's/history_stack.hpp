@@ -16,26 +16,21 @@ public:
     void push(const Song& song) {
     
         if (stack.size() == MAX_HISTORY) {
-            stack.erase(stack.begin());  
-            
+            stack.erase(stack.begin());
         }
 
-        
         stack.push_back(song);
 
         std::cout << "Song \"" << song.name
                   << "\" by " << song.artist
-                  << " added to history";
-        if (stack.size() == MAX_HISTORY) {
-            std::cout << " (oldest song removed to keep history at 10)";
-        }
-        std::cout << ".\n";
+                  << " added to history.\n";
     }
 
 
     void pop(Song& previousSong) {
         if (stack.empty()) {
             std::cout << "No previous song in history.\n";
+            return;
         }
         previousSong = std::move(stack.back());
         stack.pop_back();
