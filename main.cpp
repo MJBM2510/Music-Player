@@ -4,3 +4,9 @@
 #include "Library's/play_queue.hpp"
 
 using namespace std;
+
+struct MusicPlayer{
+    HistoryStack history;
+    PlayQueue queue;
+    SongRepository playlist;
+};
