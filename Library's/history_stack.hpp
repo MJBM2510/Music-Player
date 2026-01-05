@@ -14,27 +14,25 @@ public:
 
     
     void push(const Song& song) {
-    
-        if (stack.size() == MAX_HISTORY) {
+        if (stack.size() == MAX_HISTORY)
             stack.erase(stack.begin());
-        }
 
-        stack.push_back(song);
-
-        std::cout << "Song \"" << song.name
-                  << "\" by " << song.artist
-                  << " added to history.\n";
+        Song copy = song;
+        copy.resetLinks();
+        stack.push_back(copy);
     }
 
 
-    void pop(Song& previousSong) {
+    bool pop(Song& previousSong) {
         if (stack.empty()) {
-            std::cout << "No previous song in history.\n";
-            return;
+            std::cout << "No previous song\n";
+            return false;
         }
-        previousSong = std::move(stack.back());
+        previousSong = stack.back();
         stack.pop_back();
+        return true;
     }
+
 
     
     bool top(Song& topSong) const {
@@ -57,19 +55,15 @@ public:
         }
 
         std::cout << "\n=== Playback History (Last " << stack.size() << " songs) ===\n";
-
-        
         for (size_t i = 0; i < stack.size(); ++i) {
-            const Song& s = stack[stack.size() - 1 - i];  
-            std::cout << (i + 1) << ". "
-                      << s.name << " - "
-                      << s.artist << " ("
-                      << s.year << ") | "
-                      << s.duration << " seconds | "
-                      << "ID: " << s.id << "\n";
+            const Song& s = stack[stack.size() - 1 - i]; // آخرین آهنگ اول
+            std::cout << i + 1 << ". Name: " << s.name << "\n"
+                    << "   Artist: " << s.artist << "\n"
+                    << "   Year: " << s.year << "\n"
+                    << "   Duration: " << s.duration << " seconds\n"
+                    << "   ID: " << s.id << "\n";
         }
-
-        std::cout << "==============================================\n\n";
+        std::cout << "=========================\n\n";
     }
 
     void clear() {

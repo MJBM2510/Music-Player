@@ -24,54 +24,61 @@ class SongRepository{
                 }
         }
 
-        void deleteSong(const std::string& id){
-            for(auto* currentSong = head; currentSong != nullptr; currentSong = currentSong->nextSong){
-                if(currentSong->id == id){
-                    if(currentSong == head) head = currentSong->nextSong;
-                    else currentSong->previousSong->nextSong = currentSong->nextSong;
+        Song* getHead() const { return head; }
 
-                    if(currentSong == tail) tail = currentSong->previousSong;
-                    else currentSong->nextSong->previousSong = currentSong->previousSong;
+        void deleteSong(const std::string& keyword) {
+            for (Song* cur = head; cur; cur = cur->nextSong) {
+                if (cur->id == keyword || cur->name == keyword) {
 
-                    auto name   = currentSong->name;
-                    auto artist = currentSong->artist;
-                    auto sid    = currentSong->id;
+                    if (cur == head)
+                        head = cur->nextSong;
+                    else
+                        cur->previousSong->nextSong = cur->nextSong;
 
-                    delete currentSong;
+                    if (cur == tail)
+                        tail = cur->previousSong;
+                    else
+                        cur->nextSong->previousSong = cur->previousSong;
 
-                    std::cout<<"Song "<<name<<" by "<<artist<<", id: "<<sid<<" has deleted successfully\n";
+                    if (head) head->previousSong = nullptr;
+                    if (tail) tail->nextSong = nullptr;
 
+                    delete cur;
+                    std::cout << "Song deleted successfully\n";
                     return;
                 }
             }
-
-            std::cout<<"NO song find with id: "<<id<<std::endl;
+            std::cout << "Song not found\n";
         }
 
-        void searchSong(const std::string& keyword){
-            for(auto* currentSong = head; currentSong != nullptr; currentSong = currentSong->nextSong){
+        Song* searchSong(const std::string& keyword){
+            for(Song* currentSong = head; currentSong != nullptr; currentSong = currentSong->nextSong){
                 if((currentSong->artist == keyword)|| (currentSong->name == keyword)){
                     std::cout<<"Title: "<<currentSong->name<<", Artist: "<<currentSong->artist<<std::endl;
-                    return;
+                    return currentSong;
                 }
             }
 
-            std::cout<<"No song/artist fine with similar keyword: "<<keyword<<std::endl;
+            std::cout<<"No song/artist found with similar keyword: "<<keyword<<std::endl;
+            return nullptr;
         }
 
-        void showPlaylist(){
-            if(head == nullptr){
-                std::cout<<"playlist is empty\n";
+        void showPlaylist() {
+            if (!head) {
+                std::cout << "Playlist is empty.\n";
                 return;
             }
 
-            for(const Song* current = head; current != nullptr; current = current->nextSong){
-                std::cout<<"name:\t"<<current->name
-                    <<"\nartist:\t"<<current->artist
-                    <<"\nyear:\t"<<current->year
-                    <<"\nduration:\t"<<current->duration
-                    <<"\nid:\t"<<current->id<<"\n\n";
+            std::cout << "\n=== Playlist ===\n";
+            int i = 1;
+            for (Song* cur = head; cur; cur = cur->nextSong) {
+                std::cout << i++ << ". Name: " << cur->name << "\n"
+                        << "   Artist: " << cur->artist << "\n"
+                        << "   Year: " << cur->year << "\n"
+                        << "   Duration: " << cur->duration << " seconds\n"
+                        << "   ID: " << cur->id << "\n";
             }
+            std::cout << "================\n\n";
         }
 
         ~SongRepository() {

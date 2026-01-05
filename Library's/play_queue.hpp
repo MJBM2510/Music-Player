@@ -17,21 +17,31 @@ public:
 
     
     void enqueue(const Song& song) {
-        queue.push_back(song);  
-        std::cout << "Song \"" << song.name
-                  << "\" by " << song.artist
-                  << " added to queue.\n";
+        Song copy = song;
+        copy.resetLinks();
+        queue.push_back(copy);
     }
 
-    
-    void dequeue(Song& nextSong) {
-        if (queue.empty()) {
-            std::cout << "Warning: There is no song in the play list!\n";
-            return;
-        }
-        nextSong = std::move(queue.front());
-        queue.erase(queue.begin());
+    void enqueueAtFront(const Song& song) {
+        Song copy = song;
+        copy.resetLinks();
+        queue.insert(queue.begin(), copy);
     }
+    
+    bool dequeue(Song& nextSong) {
+        if (queue.empty()) {
+            std::cout << "Queue is empty\n";
+            return false;
+        }
+        nextSong = queue.front();
+        queue.erase(queue.begin());
+
+        std::cout << "Now playing: "
+                << nextSong.name << " by "
+                << nextSong.artist << "\n";
+        return true;
+    }
+
 
 
     bool peek(Song& nextSong) const {
@@ -57,15 +67,15 @@ public:
         std::cout << "\n=== Play Queue (" << queue.size() << " songs) ===\n";
         for (size_t i = 0; i < queue.size(); ++i) {
             const Song& s = queue[i];
-            std::cout << (i + 1) << ". "
-                      << s.name << " - "
-                      << s.artist << " ("
-                      << s.year << ") | "
-                      << s.duration << " seconds | "
-                      << "ID: " << s.id << "\n";
+            std::cout << i + 1 << ". Name: " << s.name << "\n"
+                    << "   Artist: " << s.artist << "\n"
+                    << "   Year: " << s.year << "\n"
+                    << "   Duration: " << s.duration << " seconds\n"
+                    << "   ID: " << s.id << "\n";
         }
-        std::cout << "==========================================\n\n";
+        std::cout << "=========================\n\n";
     }
+
 
     
     void searchInQueue(const std::string& keyword) const {
