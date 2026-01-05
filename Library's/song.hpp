@@ -4,6 +4,8 @@
 class Song{
     friend class SongRepository;
     friend class PlayQueue;
+    friend class HistoryStack;
+
     private:
         std::string name, artist;
         unsigned int year;
