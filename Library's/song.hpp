@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#pragma once
 
 class Song{
     friend class SongRepository;
